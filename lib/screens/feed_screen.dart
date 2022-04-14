@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/utils/color.dart';
+import 'package:instagram_clone/widgets/post_card.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -19,10 +20,11 @@ class FeedScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.messenger_outline_sharp),
+            icon: const Icon(Icons.messenger_outline_sharp),
           ),
         ],
       ),
+      body: const PostCard(),
     );
   }
 }
