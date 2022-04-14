@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/user.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/color.dart';
 import 'package:instagram_clone/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -87,7 +88,12 @@ class _PostCardState extends State<PostCard> {
           //Image Secion is here
 
           GestureDetector(
-            onDoubleTap: () {
+            onDoubleTap: () async {
+              await FireStoreMethods().likePost(
+                widget.snap['postId'],
+                user.uid,
+                widget.snap['likes'],
+              );
               setState(() {
                 isLikeAnimating = true;
               });
@@ -110,7 +116,7 @@ class _PostCardState extends State<PostCard> {
                     child: const Icon(
                       Icons.favorite,
                       color: Colors.white,
-                      size: 70,
+                      size: 50,
                     ),
                     isAnimating: isLikeAnimating,
                     duration: const Duration(
@@ -134,11 +140,19 @@ class _PostCardState extends State<PostCard> {
                 isAnimating: widget.snap['likes'].contains(user.uid),
                 smallLike: true,
                 child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_rounded,
-                    color: Colors.red,
-                  ),
+                  onPressed: () async {
+                    await FireStoreMethods().likePost(
+                      widget.snap['postId'],
+                      user.uid,
+                      widget.snap['likes'],
+                    );
+                  },
+                  icon: widget.snap['likes'].contains(user.uid)
+                      ? const Icon(
+                          Icons.favorite_rounded,
+                          color: Colors.red,
+                        )
+                      : Icon(Icons.favorite_border),
                 ),
               ),
               IconButton(
