@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/models/user.dart';
+import 'package:instagram_clone/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class CommentCard extends StatefulWidget {
   const CommentCard({Key? key}) : super(key: key);
@@ -10,6 +13,7 @@ class CommentCard extends StatefulWidget {
 class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 18,
@@ -19,8 +23,7 @@ class _CommentCardState extends State<CommentCard> {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c3BpZGVybWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1000&q=60'),
+            backgroundImage: NetworkImage(user.photoUrl),
           ),
           Expanded(
             child: Padding(
@@ -33,11 +36,11 @@ class _CommentCardState extends State<CommentCard> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'username',
+                          text: user.username,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: 'some description to insert',
+                          text: ' some description to insert',
                         ),
                       ],
                     ),

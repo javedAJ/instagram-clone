@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/models/user.dart';
+import 'package:instagram_clone/providers/user_provider.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/color.dart';
 import 'package:instagram_clone/widgets/comment_card.dart';
+import 'package:provider/provider.dart';
 
 class CommentScreen extends StatefulWidget {
-  const CommentScreen({Key? key}) : super(key: key);
+  final snap;
+  const CommentScreen({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();
 }
 
 class _CommentScreenState extends State<CommentScreen> {
+  final TextEditingController _commentController = TextEditingController();
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -40,14 +54,23 @@ class _CommentScreenState extends State<CommentScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 8),
                   child: TextField(
-                      decoration: InputDecoration(
-                    hintText: 'Comment as username',
-                    border: InputBorder.none,
-                  )),
+                      controller: _commentController,
+                      decoration: const InputDecoration(
+                        hintText: 'Comment as username',
+                        border: InputBorder.none,
+                      )),
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  FireStoreMethods().postComment(
+                    widget.snap['postId'],
+                    _commentController.text,
+                    user.uid,
+                    user.username,
+                    user.photoUrl,
+                  );
+                },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
