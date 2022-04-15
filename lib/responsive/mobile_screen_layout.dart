@@ -47,9 +47,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         onPageChanged: onPageChanged,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: mobileBackgroundColor,
         items: [
           BottomNavigationBarItem(
+            backgroundColor: mobileBackgroundColor,
             icon: Icon(
               Icons.home_outlined,
               color: (_page == 0) ? primaryColor : secondaryColor,
