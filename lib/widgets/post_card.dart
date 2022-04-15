@@ -27,6 +27,7 @@ class _PostCardState extends State<PostCard> {
     super.initState();
   }
 
+  //function for getting the lenth of the comments
   void getComments() async {
     try {
       QuerySnapshot snap = await FirebaseFirestore.instance
@@ -93,7 +94,11 @@ class _PostCardState extends State<PostCard> {
                                 ]
                                     .map(
                                       (e) => InkWell(
-                                        onTap: () {},
+                                        onTap: () async {
+                                          FireStoreMethods().deletePost(
+                                              widget.snap['postId']);
+                                          Navigator.of(context).pop();
+                                        },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12, horizontal: 16),

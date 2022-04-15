@@ -38,7 +38,9 @@ class _CommentScreenState extends State<CommentScreen> {
               .collection('posts')
               .doc(widget.snap['postId'])
               .collection('comments')
-              .orderBy('datePublished')
+              .orderBy('datePublished',
+                  descending:
+                      true) // If you want fetch data in ascending or descending order then this is much useful
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
