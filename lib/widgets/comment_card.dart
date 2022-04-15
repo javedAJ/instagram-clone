@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/user.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({Key? key}) : super(key: key);
+  final snap;
+  const CommentCard({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -23,7 +25,9 @@ class _CommentCardState extends State<CommentCard> {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundImage: NetworkImage(user.photoUrl),
+            backgroundImage: NetworkImage(
+              widget.snap['profilePic'],
+            ),
           ),
           Expanded(
             child: Padding(
@@ -36,11 +40,11 @@ class _CommentCardState extends State<CommentCard> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: user.username,
+                          text: widget.snap['name'],
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: ' some description to insert',
+                          text: ' ${widget.snap['text']}',
                         ),
                       ],
                     ),
@@ -48,8 +52,9 @@ class _CommentCardState extends State<CommentCard> {
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      '14-04-2022',
-                      style: TextStyle(
+                      DateFormat.yMMMd()
+                          .format(widget.snap['datePublished'].toDate()),
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
