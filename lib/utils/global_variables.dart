@@ -1,14 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/add_post_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
+import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/screens/search_screen.dart';
 
 const webScreenSize = 600;
 
-const homeScreenItems = [
+List<Widget> homeScreenItems = [
   FeedScreen(),
   SearchScreen(),
   AddPostScreen(),
   Text('data'),
-  Text('data'),
+  ProfileScreen(
+    uid: FirebaseAuth.instance.currentUser!.uid,
+  ),
 ];
